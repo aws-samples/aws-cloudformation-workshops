@@ -1,0 +1,120 @@
+# CloudFormation Workshop - Template 1
+#
+# Parameters:
+#
+# (1) An Availability Zone using the built in pseudo parameter.
+#
+# Resources built:
+#
+# (1) An Amazon VPC
+# (2) A public subnet
+# (3) An Internet gateway
+# (4) A route table
+# (5) A default route
+#
+# Output values:
+#
+# VpcId - The ID of the VPC (e.g. vpc-123456789012345)
+# SubnetId - The ID of the subnet (e.g. subnet-123456789012345)
+# AzId - The Availability Zone of the subnet (e.g. us-east-1a)
+---
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: Create a VPC
+
+# Note the use of the AWS-specific parameter type.
+#
+# See:
+#
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html
+
+Parameters:
+  AzName:
+    Type: AWS::EC2::AvailabilityZone::Name
+    Description: Subnet Availability Zone
+
+Resources:
+  Vpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.200.0.0/16
+      EnableDnsHostnames: 'true'
+
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Ref AzName
+      CidrBlock: 10.200.11.0/24
+      MapPublicIpOnLaunch: 'true'
+      VpcId: !Ref Vpc
+
+  VpcIgw:
+    Type: AWS::EC2::InternetGateway
+
+  VpcIgwAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: !Ref VpcIgw
+      VpcId: !Ref Vpc
+
+# Note the use of the DependsOn attribute.  You need to use this to delay
+# the creation of the route table if it contains a route that reports to
+# an Internet Gateway.
+#
+# See:
+#
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html
+
+  RouteTable:
+    Type: AWS::EC2::RouteTable
+    DependsOn: VpcIgwAttachment
+    Properties:
+      VpcId: !Ref Vpc
+
+  DefaultRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref VpcIgw
+      RouteTableId: !Ref RouteTable
+
+  AssociatePublicSubnetToRouteTable:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref RouteTable
+      SubnetId: !Ref PublicSubnet
+
+# Note that the output values are derived from the PublicSubnet resource.
+# You can see what values !Ref and !GetAtt return by looking at the
+# CloudFormation documentation for AWS::EC2::Subnet at:
+#
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-subnet.html
+#
+# Note that we could have used !Ref AzName for the output value of AzId.
+# The reason for not doing this will become apparent.
+
+Outputs:
+
+  SubnetId:
+    Description: Subnet ID
+    Value: !Ref PublicSubnet
+    Export:
+      Name: SubnetId
+
+  VpcId:
+    Description: Vpc ID
+    Value: !Ref Vpc
+    Export:
+      Name: VpcId
+
+  VpcCidr:
+    Description: Vpc CIDR block
+    Value: !GetAtt Vpc.CidrBlock
+    Export:
+      Name: VpcCidr
+
+  AzName:
+    Description: Subnet Availability Zone
+    Value: !GetAtt PublicSubnet.AvailabilityZone
+    Export:
+      Name: AzName

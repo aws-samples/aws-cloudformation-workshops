@@ -1,0 +1,56 @@
+Mappings:
+  RegionMap:
+    us-east-1:
+      VpcCidr: 10.201.0.0/16
+      SubnetCidr: 10.201.1.0/24
+    us-east-2:
+      VpcCidr: 10.202.0.0/16
+      SubnetCidr: 10.202.1.0/24
+    us-west-1:
+      VpcCidr: 10.203.0.0/16
+      SubnetCidr: 10.203.1.0/24
+    us-west-2:
+      VpcCidr: 10.204.0.0/16
+      SubnetCidr: 10.204.1.0/24
+    ca-central-1:
+      VpcCidr: 10.205.0.0/16
+      SubnetCidr: 10.205.1.0/24
+    eu-central-1:
+      VpcCidr: 10.206.0.0/16
+      SubnetCidr: 10.206.1.0/24
+    eu-west-1:
+      VpcCidr: 10.207.0.0/16
+      SubnetCidr: 10.207.1.0/24
+    eu-west-2:
+      VpcCidr: 10.208.0.0/16
+      SubnetCidr: 10.208.1.0/24
+    eu-west-3:
+      VpcCidr: 10.209.0.0/16
+      SubnetCidr: 10.209.1.0/24
+    ap-northeast-1:
+      VpcCidr: 10.210.0.0/16
+      SubnetCidr: 10.210.1.0/24
+    ap-northeast-2:
+      VpcCidr: 10.211.0.0/16
+      SubnetCidr: 10.211.1.0/24
+    ap-northeast-3:
+      VpcCidr: 10.212.0.0/16
+      SubnetCidr: 10.212.1.0/24
+    ap-southeast-1:
+      VpcCidr: 10.213.0.0/16
+      SubnetCidr: 10.213.1.0/24
+    ap-southeast-2:
+      VpcCidr: 10.214.0.0/16
+      SubnetCidr: 10.214.1.0/24
+    ap-south-1:
+      VpcCidr: 10.215.0.0/16
+      SubnetCidr: 10.215.1.0/24
+    us-gov-west:
+      VpcCidr: 10.216.0.0/16
+      SubnetCidr: 10.216.1.0/24
+    cn-north-1:
+      VpcCidr: 10.217.0.0/16
+      SubnetCidr: 10.217.1.0/24
+    cn-northwest-1:
+      VpcCidr: 10.218.0.0/16
+      SubnetCidr: 10.218.1.0/24

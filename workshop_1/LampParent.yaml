@@ -1,0 +1,49 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: Parent stack for Lamp.yaml
+
+# Create the following AWS resources:
+#
+# Nested LAMP stack.
+#
+# Notes:
+#
+# Note that the TemplateURL for the LAMP stack must be in a bucket in the
+# same region as this "parent" stack.
+
+
+
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  DbRootPassword:
+    Type: String
+    Description: DB root password (8-32 alphanumerics)
+    MinLength: 8
+    MaxLength: 32
+    AllowedPattern: "[a-zA-Z][a-zA-Z0-9]*"
+
+Resources:
+  LampStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub 'https://s3.amazonaws.com/aws-cloudformation-workshops-${AWS::Region}/workshop_1/Lamp.yaml'
+      Parameters:
+        VpcId: !ImportValue VpcId
+        SubnetId: !ImportValue SubnetId
+        AzName: !ImportValue AzName
+        DbRootPassword: !Ref DbRootPassword
+
+Outputs:
+  LampInstanceId:
+    Description: LampInstance Instance Id
+    Value: !GetAtt LampStack.Outputs.LampInstanceId
+
+  LampInstanceIP:
+    Description: LampInstance IP Address
+    Value: !GetAtt LampStack.Outputs.LampInstanceIP
+
+  LampInstanceUrl:
+    Description: LampInstance Url
+    Value: !Sub 'http://${LampStack.Outputs.LampInstanceIP}'

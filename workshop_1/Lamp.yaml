@@ -1,0 +1,150 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: Create an AWS EC2 instance with a LAMP stack
+
+# Create the following AWS resources:
+#
+# - A security group for web (80/443) access to the EC2 instance (SGWeb)
+# - An Amazon EC2 instance running Amazon Linux 2 (LampInstance)
+#
+# Then:
+#
+# - Install some core Linux components
+# - Install and configure Apache, PHP, and MySQL
+#
+# Notes:
+#
+# - The MySQL root password is stored in the /home/ec2-user directory
+
+Parameters:
+  AzName:
+    Type: AWS::EC2::AvailabilityZone::Name
+    Description: Select Availability Zone
+
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: Select VPC
+
+  SubnetId:
+    Type: AWS::EC2::Subnet::Id
+    Description: Select subnet
+
+  SGWebCidr:
+    Type: String
+    Description: The CIDR address range that can browse to the EC2 instance
+    MinLength: 9
+    MaxLength: 18
+    Default: "0.0.0.0/0"
+    AllowedPattern: "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})"
+    ConstraintDescription: Must be a valid IP CIDR range of the form x.x.x.x/x
+
+  DbRootPassword:
+    Type: String
+    Description: DB root password (8-32 alphanumerics)
+    MinLength: 8
+    MaxLength: 32
+    AllowedPattern: "[a-zA-Z][a-zA-Z0-9]*"
+
+  LatestAmazonLinux2AmiId:
+    Type : 'AWS::SSM::Parameter::Value<String>'
+    Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
+
+Resources:
+  SGWeb:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable HTTP/HTTPS access via port 22
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: '80'
+        ToPort: '80'
+        CidrIp: !Ref SGWebCidr
+      - IpProtocol: tcp
+        FromPort: '443'
+        ToPort: '443'
+        CidrIp: !Ref SGWebCidr
+      VpcId: !Ref VpcId
+
+  LampInstance:
+    Type: AWS::EC2::Instance
+
+    CreationPolicy:
+      ResourceSignal:
+        Timeout: PT15M
+
+    Properties:
+      AvailabilityZone: !Ref AzName
+      ImageId: !Ref LatestAmazonLinux2AmiId
+      InstanceInitiatedShutdownBehavior: stop
+      InstanceType: t2.micro
+      Monitoring: 'true'
+      NetworkInterfaces:
+      - AssociatePublicIpAddress: 'true'
+        DeviceIndex: '0'
+        GroupSet:
+        - !Ref SGWeb
+        SubnetId: !Ref SubnetId
+      Tenancy: default
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash -xe
+          HOMEDIR=/home/ec2-user
+
+          yum update -y
+          
+          amazon-linux-extras install lamp-mariadb10.2-php7.2
+
+          echo Installing packages...
+          echo Please ignore messages regarding SELinux...
+          yum install -y \
+            httpd \
+            mariadb-server \
+            php \
+            php-gd \
+            php-mbstring \
+            php-mysqlnd \
+            php-xml \
+            php-xmlrpc
+
+          MYSQL_ROOT_PASSWORD=${DbRootPassword}
+          echo $MYSQL_ROOT_PASSWORD > $HOMEDIR/MYSQL_ROOT_PASSWORD
+          chown ec2-user $HOMEDIR/MYSQL_ROOT_PASSWORD
+
+          echo Starting database service...
+          sudo systemctl start mariadb
+          sudo systemctl enable mariadb
+
+          echo Setting up basic database security...
+          mysql -u root <<EOF
+          UPDATE mysql.user SET Password=PASSWORD('$MYSQL_ROOT_PASSWORD') WHERE User='root';
+          DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+          DELETE FROM mysql.user WHERE User='';
+          DROP DATABASE IF EXISTS test;
+          FLUSH PRIVILEGES;
+          EOF
+
+          echo Configuring Apache...
+          usermod -a -G apache ec2-user
+          chown -R ec2-user:apache /var/www
+          chmod 2775 /var/www && find /var/www -type d -exec chmod 2775 {} \;
+          find /var/www -type f -exec chmod 0664 {} \;
+
+          echo Starting Apache...
+          sudo systemctl start httpd
+          sudo systemctl enable httpd
+
+          /opt/aws/bin/cfn-signal \
+            -e $? \
+            --stack ${AWS::StackName} \
+            --resource LampInstance \
+            --region ${AWS::Region}
+
+Outputs:
+  LampInstanceId:
+    Description: LampInstance Instance Id
+    Value: !Ref LampInstance
+
+  LampInstanceIP:
+    Description: LampInstance IP Address
+    Value: !GetAtt LampInstance.PublicIp
