@@ -81,7 +81,7 @@ AWS Cloudformation StackSets requires two IAM roles in order to install stacks a
 - AWSCloudFormationStackSetAdministrationRole
 - AWSCloudFormationStackSetExecutionRole
 
-You will create these roles, if they do not already exist, by deploying two CloudFomration templates provided by AWS.
+You will create these roles, if they do not already exist, by deploying two CloudFormation templates provided by AWS.
 The instructions in sections 3.1 and 3.2 are the standard way of deploying a template from an S3 template URL.
 
 
