@@ -330,7 +330,7 @@ Please make sure that each VPC has a unique CIDR block in the 10.0.0.0/8 space.
 You need to some up with a way to use different CIDR blocks for each region in which the stack is deployed, preferably in an automatic manner.
 AWS CloudFormation offers a way to do this with *mappings*.
 
-- __5.13__ Download the Mappings.yaml template to your workstation by right clicking on [this link](https://github.com/aws-samples/aws-cloudformation-workshops/raw/master/workshop_1/Mappings.yaml), and select 'Save as' (or the equivalent in your browser).
+- __5.13__ Download the Mappings.yaml template to your workstation by right clicking on [this link](https://github.com/aws-samples/aws-cloudformation-workshops/raw/master/workshop_1/Mappings.yaml), and select 'Save as' (or the equivalent in your browser). **NOTE: Make sure you change the file extension to .yaml if your browser does not do this for you**.
 
 - __5.14__ Insert the contents of the Mappings.yaml file into the CreateVpc.yaml file above the *Resources:* line.
 The rows of Mappings.yaml create a map named *RegionMap* that CloudFormation can use to look up attributes associated with a region.
