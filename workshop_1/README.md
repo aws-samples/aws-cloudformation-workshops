@@ -485,7 +485,7 @@ This defines a resource named *DbRootPassword* that calls our Python function an
 
 - __6.13__ Remove the entire Parameters section including the **Parameters** line as well as the entire definition of **DbRootPassword**.
 
-- __6.14__ Insert the entire contents of the Random.yanl file into the LampParent.yaml file just below the **Resources:** line.  Close the Random.yaml file.
+- __6.14__ Insert the entire contents of the Random.yaml file into the LampParent.yaml file just below the **Resources:** line.  Close the Random.yaml file.
 
 - __6.15__ Locate the LampStack resource definition in the LampParent.yaml file.
 
