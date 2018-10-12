@@ -296,6 +296,8 @@ For example, see the [Subnet resource page](https://docs.aws.amazon.com/AWSCloud
 Use *CreateVpc* for the name of the stack.
 Note that you are no longer prompted for the Availability Zone.
 If you receive errors, make any adjustments needed and try deploying the stack again until you receive no errors.
+Look at the Outputs of the stack.
+Note that CloudFormation automatically chose the availability zone of the subnet.
   
 - __5.11__ Delete the CreateVpc stack.
 
