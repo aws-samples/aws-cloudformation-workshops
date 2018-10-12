@@ -483,7 +483,7 @@ This defines a resource named *DbRootPassword* that calls our Python function an
 
 - __6.12__ Open up your LampParent.yaml file in a text editor.
 
-- __6.13__ Remove the entire Parameters section including the **Parameters:** line as well as the entire definition of **DbRootPassword:**.
+- __6.13__ Remove the entire Parameters section including the **Parameters** line as well as the entire definition of **DbRootPassword**.
 
 - __6.14__ Insert the entire contents of the Random.yanl file into the LampParent.yaml file just below the **Resources:** line.  Close the Random.yaml file.
 
@@ -512,7 +512,7 @@ data element named *RandomString* which is string of quantity *StringLength* ran
 
 4. To get the resulting random string, we use GetAtt to extract the *RandomString* attribute.
 
-- __6.17__ Add the following lines to the **Outputs:** section.  Make sure you maintain the appropriate level of spacing.
+- __6.17__ Add the following lines to the **Outputs** section.  Make sure you maintain the appropriate level of spacing.
 
 
 ```
