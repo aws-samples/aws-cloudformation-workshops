@@ -81,7 +81,7 @@ AWS Cloudformation StackSets requires two IAM roles in order to install stacks a
 - AWSCloudFormationStackSetAdministrationRole
 - AWSCloudFormationStackSetExecutionRole
 
-You will create these roles, if they do not already exist, by deploying two CloudFormation templates provided by AWS.
+You will create these roles, if they do not already exist, by deploying two CloudFomration templates provided by AWS.
 The instructions in sections 3.1 and 3.2 are the standard way of deploying a template from an S3 template URL.
 
 
@@ -430,34 +430,111 @@ Please ensure that all data base passwords are a minimum of eight random alphanu
 
 It turns out there is a way to have CloudFormation generate a random string with a little help from you through the use of [custom resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-custom-resources.html).
 
+- __6.11__ Download the file Random.yaml.  Open it in your text editor.
+
+The file is used to define a CloudFormation custom resource.
+This custom resource extends CloudFormation by providing a new capability, in this case the ability to generate a random string value which we will use for the password of the database.
+The work is done by an AWS *Lambda* function.
+AWS Lambda is the serverless compute platform.
+
+There are three resources in this file.
+
+The first resource is a *Lambda execution role*.
+This IAM role defines the permissions that our Lambda function will have.
+
+The second resource is a Lambda function.
+This function is written in the Python language.
+If you are familiar with Python, please feel free to read the function.
+Otherwise, just know that our Cloudformation template will pass the function one argument named *StringLength* which is the length of the random string to generate.
+The function will return a result as a resource *attribute* named *RandomString*.
+
+The third resources is the actual custom resource itself.
+Here is what it looks like:
+
+```
+  DbRootPassword:
+    Type: Custom::DBRootPassword
+    Properties:
+      ServiceToken: !GetAtt RandomStrFunction.Arn
+      StringLength: '8
+```
+
+This defines a resource named *DbRootPassword* that calls our Python function and passes it a parameted named StringLength that has a value of 8.
+
+- __6.12__ Open up your LampParent.yaml file in a text editor.
+
+- __6.13__ Remove the entire Parameters section including the **Parameters:** line as well as the entire definition of **DbRootPassword:**.
+
+- __6.14__ Insert the entire contents of the Random.yanl file into the LampParent.yaml file just below the **Resources:** line.  Close the Random.yaml file.
+
+- __6.15__ Locate the LampStack resource definition in the LampParent.yaml file.
+
+- __6.16__ Change this line:
+
+```
+DbRootPassword: !Ref DbRootPassword
+```
+
+to:
+
+```
+DbRootPassword: !GetAtt DbRootPassword.RandomString
+```
+
+- __6.17__ Add the following lines to the **Outputs:** section.  Make sure you maintain the appropriate level of spacing.
+
+
+```
+  DbRootPassword:
+    Description: Data base root password
+    Value: !GetAtt DbRootPassword.RandomString
+```
+
+- __6.18__ In steps 6.12 through 6.18, you have changed the database root password from being a parameter to being a random string value.
+
+- __6.19__ Deploy the new LampParent.yaml as a *stack* (not a StackSet) in the administrative region (us-east-1).
+Use *LampParent* for the stack name and any 8-32 alphanumeric password.
+
+- __6.20__ When the deployment is complete, you will again see two additional stacks, one of which is nested as shown below.
+
+![nested stack example](img/LampParentStackOutputs.png)
+
+- __6.21__ In the Output tab of the stack, you should see a value for DbRootPassword that contains an 8-character random string value.
+
+- __6.22__ Delete the LampParent stack (not the nested stack).  The nested stack will automatically be deleted.
+
+- __6.23__ Now deploy the LampParent.yaml file as a StackSet.
+
+- __6.24__ Go to the CloudFormation console in both regions and look at the Output tab.  You should see a different value for DbRootPassword in each region.
+
 ### 7. Clean up
 
 Now that you have seen learned how to use AWS CloudFormation, please follow these steps to remove the resources you created.
 
-- __7.18__ Go to the CloudFormation console in the administrative region (us-east-1 in this example) and manage the LampParent StackSet.
+- __7.1__ Go to the CloudFormation console in the administrative region (us-east-1 in this example) and manage the LampParent StackSet.
 Delete the stacks in each region and then delete the StackSet itself.
 If you receive an error message saying that the StackSet is not empty, make sure that all the deletions of the individual stacks in both target regions have completed.
 
-- __7.19__ Go to the CloudFormation console in the administrative region (us-east-1 in this example) and manage the CreateVpc StackSet.
+- __7.2__ Go to the CloudFormation console in the administrative region (us-east-1 in this example) and manage the CreateVpc StackSet.
 Delete the stacks in each region and then delete the StackSet itself.
 If you receive an error message saying that the StackSet is not empty, make sure that all the deletions of the individual stacks in both target regions have completed.
 
 
-- __7.20__ Go to the CloudFormation console and manage the EnableCloudTrail StackSet.
+- __7.3__ Go to the CloudFormation console and manage the EnableCloudTrail StackSet.
 Delete the stacks in each region and then delete the StackSet itself.
 If you receive an error message saying that the StackSet is not empty, make sure that all the deletions of the individual stacks in both target regions have completed.
 
-- __7.21__ If you deployed the StacksetAdministrationRole CloudFormation stack in section 3.1 and no longer wsih to retain it, then [Delete the StacksetAdministrationRole stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-delete-stack.html) that you created in section 3.1.  The stack deletion process may take several minutes to complete.
+- __7.4__ If you deployed the StacksetAdministrationRole CloudFormation stack in section 3.1 and no longer wsih to retain it, then [Delete the StacksetAdministrationRole stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-delete-stack.html) that you created in section 3.1.  The stack deletion process may take several minutes to complete.
 
-- __7.22__ If you deployed the StacksetExecutionnRole CloudFormation stack in section 3.2 and no longer wish to retain it, then [Delete the StacksetExecutionRole stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-delete-stack.html) that you created in section 3.2.  The stack deletion process may take several minutes to complete.  If you do wish to retain this role, please take into consideration the security note in section 3.2.7 and consider adjusting its configuration as appropriate.
+- __7.5__ If you deployed the StacksetExecutionnRole CloudFormation stack in section 3.2 and no longer wish to retain it, then [Delete the StacksetExecutionRole stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-delete-stack.html) that you created in section 3.2.  The stack deletion process may take several minutes to complete.  If you do wish to retain this role, please take into consideration the security note in section 3.2.7 and consider adjusting its configuration as appropriate.
 
-- __7.30__ Delete the S3 buckets associated with the CloudFormation StackSets you have created that you no longer wish to keep.
+- __7.6__ Delete the S3 buckets associated with the CloudFormation StackSets you have created that you no longer wish to keep.
 The bucket names will begin with "stackset" followed by the names of the stacks you created and random characters.
 
-- __7.31__ Delete the S3 buckets associated with CloudTrail logs that you no longer wish to keep.
+- __7.7__ Delete the S3 buckets associated with CloudTrail logs that you no longer wish to keep.
 The bucket names will begin with "cloudtrail-awslogs" followed by the names of the stacks you created and random characters.
 
-- __7.32__ Delete the S3 buckets associated with the individual CloudFormation templates that you no longer wish to keep.
+- __7.8__ Delete the S3 buckets associated with the individual CloudFormation templates that you no longer wish to keep.
 The bucket names will begin with "cf-templates" followed by the names of the stacks you created and random characters.
 
 ### 8. Conclusion
