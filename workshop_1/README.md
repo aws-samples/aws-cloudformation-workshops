@@ -149,7 +149,7 @@ This will help you to learn the process for deploying a StackSet and also determ
 
 - __4.3__ Click on **Enable AWS CloudTrail** and then click **Next**.
 
-- __4.4__ On the *Specify Details* page, enter **MyStackSet** for the stack name, accept all the default values in the other fields.
+- __4.4__ On the *Specify Details* page, enter **EnableCloudTrail** for the stack name, accept all the default values in the other fields.
 Notice that you are only prompted for the parameters once even though you will be deploying the StackSet in two regions.
 Click **Next**.
 
