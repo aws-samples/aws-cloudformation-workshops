@@ -327,7 +327,7 @@ Please make sure that each VPC has a unique CIDR block in the 10.0.0.0/8 space.
 ```
 
   In short, the VPCs in both target regions are being built with the same CIDR address block (10.200.0.0/16).
-You need to some up with a way to do this, preferably in an automatic manner.
+You need to some up with a way to use different CIDR blocks for each region in which the stack is deployed, preferably in an automatic manner.
 AWS CloudFormation offers a way to do this with *mappings*.
 
 - __5.13__ Download the file Mappings.yaml.
