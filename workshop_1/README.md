@@ -398,14 +398,15 @@ You are encouraged to study the stack to learn more about the details not covere
 - __6.2__ In the *Parameters* section, notice how the template prompts you for the AzName, VpcId, and SubnetId.
 This seems unnecessary because the CreateVpc.yaml template had these values in the *Outputs* section and, furthermore, these were *exported* by CreateVpc.yaml.
 You have read that you can *import* values from another stack through [Cross-Stack References](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/walkthrough-crossstackref.html).
-Just when you were getting ready to modify the template, you receive the following message:
+Just when you were getting ready to modify the template, you receive the following message from the Cloud Standards Team:
 
 ```
-Attention Cloud Services Team!  The Standards Team has decided to adopt the Lamp.yaml file as is for our projects.
-You may copy this file as often as you need to but you cannot make changes to it.
+Attention Cloud Services Team!  The Standards Team has decided to adopt the Lamp.yaml file
+in its current form for our projects.  You may copy this file as often as you need to but
+you cannot make changes to it.
 ```
 
-You explain to the Standards Team that modifying this template will simplify matters but they want to keep the environment stable and not introduce any changes to the file.
+You try to explain to the Standards Team that modifying this template will simplify matters but they want to keep the environment stable and not introduce any changes to the file.
 You do some additional research and learn there is a way to address this.
 
 - __6.3__ Your desire is to make things as simple as possible for your users.
