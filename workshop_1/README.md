@@ -180,7 +180,7 @@ You can also go to the CloudFormation console in each of the target regions to v
 Now that you have learned how to deploy a CloudFormation template as well as a CloudFormation StackSet, you are going to build a template that will eventually be used to create a StackSet that creates an Amazon VPC in each target region.
 You will first develop the template and deploy it into the administrative region, then refine the template, and then deploy the template as a StackSet.
 
-- __5.1__ Download the CreateVpc.yaml template to your workstation.
+- __5.1__ Download the CreateVpc.yaml template to your workstation by right clicking on [this link](https://github.com/aws-samples/aws-cloudformation-workshops/raw/master/workshop_1/CreateVpc.yaml), and select 'Save as' (or the equivalent in your browser).  Note that you may need to explicitly change the file extension to **.yaml**.
 
 - __5.2__ Go to the CloudFormation console and select the administrative region (us-east-1 in this example).
 
