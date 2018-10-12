@@ -450,7 +450,7 @@ Please ensure that all data base passwords are a minimum of eight random alphanu
 
 It turns out there is a way to have CloudFormation generate a random string with a little help from you through the use of [custom resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-custom-resources.html).
 
-- __6.11__ Download the file Random.yaml.  Open it in your text editor.
+- __6.11__ Download the Random.yaml template to your workstation by right clicking on [this link](https://github.com/aws-samples/aws-cloudformation-workshops/raw/master/workshop_1/Random.yaml), and select 'Save as' (or the equivalent in your browser). **NOTE: Make sure you change the file extension to .yaml if your browser does not do this for you**.  Open it in your text editor.
 
 The file is used to define a CloudFormation custom resource.
 This custom resource extends CloudFormation by providing a new capability, in this case the ability to generate a random string value which we will use for the password of the database.
@@ -468,7 +468,7 @@ If you are familiar with Python, please feel free to read the function.
 Otherwise, just know that our Cloudformation template will pass the function one argument named *StringLength* which is the length of the random string to generate.
 The function will return a result as a resource *attribute* named *RandomString*.
 
-The third resources is the actual custom resource itself.
+The third resource is the actual custom resource itself.
 Here is what it looks like:
 
 ```
@@ -500,6 +500,17 @@ to:
 ```
 DbRootPassword: !GetAtt DbRootPassword.RandomString
 ```
+
+Here is how the whole custom resource logic flows:
+
+1. We create a Lambda function named RandomStrFunction that looks for a resource property named *StringLength* and returns a
+data element named *RandomString* which is string of quantity *StringLength* random alphanumeric characters.
+
+2. We define a custom resource named DbRootPassword that has two properties, a token (pointer) to RandomStrFunction and StringLength.
+
+3. When the custom resource DbRootPassword is created, CloudFormation invokes the Lambda function.
+
+4. To get the resulting random string, we use GetAtt to extract the *RandomString* attribute.
 
 - __6.17__ Add the following lines to the **Outputs:** section.  Make sure you maintain the appropriate level of spacing.
 
