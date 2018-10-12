@@ -373,7 +373,7 @@ If you receive errors, make any adjustments needed and try deploying the stack a
 - __5.18__ Delete the CreateVpc stack.
 
 - __5.19__ Deploy the createvpc.yaml as a *StackSet* from the administrative region (us-east-1) into both target regions (us-east-1 and us-west-2).
-Use *CreateVpc* as the StackSet name.
+Note that you will select the *Upload a template to Amazon S3* option. Use *CreateVpc* as the StackSet name.
 
 - __5.20__ After the StackSet deployment has been completed, go to the CloudFormation console for each target region (us-east-1 and us-west-2) and look at the Output for each target stack.
 You will again see that CloudFormation has by itself chosen an Availability Zone within each region for the subnet as well as a VPC CIDR block that is specific to the region.
