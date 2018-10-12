@@ -201,7 +201,7 @@ While you can override this and provide different parameters within each region,
 A better approach is to have the logic that selects the Availability Zone for the subnet be a part of the template itself.
 This would allow you to use the exact same template across both target regions and have CloudFormation automatically provision the submet in an Availability Zone within each region.
 
-- __5.5__ Delete the CreateVpc stack in the administrative region (us-east-1).
+- __5.5__ Go to the CloudFormation console in the administrative region (us-east-1 in this example).  Select the CreateVpc stack, click *Actions* and select *Delete Stack* to delete the CreateVpc stack.
 
 - __5.6__ Open the CreateVpc.yaml file in a text editor.
 
