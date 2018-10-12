@@ -232,6 +232,20 @@ Parameters:
 The two lines below AvailabilityZone are each indented by two additional spaces.
 Here's what this change accomplishes.  Rather than prompting the user for an Availability Zone, the template automatically selects an Availability Zone using the [Select](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-select.html) and [GetAZs](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-getavailabilityzones.html) intrinsic functions offered by AWS CloudFormation.
 
+After you have done this, the PublicSubnet resource should look like this:
+
+```
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Select
+        - 0
+        - !GetAZs ""
+      CidrBlock: 10.200.11.0/24
+      MapPublicIpOnLaunch: 'true'
+      VpcId: !Ref Vpc
+```
+
  Also, replace these lines in the Outputs section:
  
 ```
