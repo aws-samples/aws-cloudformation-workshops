@@ -390,7 +390,7 @@ Here's a diagram of what you have built thus far from a CloudFormation StackSet 
 
 ### 6. Create the LAMP StackSet
 
-- __6.1__ Download the file Lamp.yaml and open it in your text editor.
+- __6.1__ Download the Lamp.yaml template to your workstation by right clicking on [this link](https://github.com/aws-samples/aws-cloudformation-workshops/raw/master/workshop_1/Lamp.yaml), and select 'Save as' (or the equivalent in your browser). **NOTE: Make sure you change the file extension to .yaml if your browser does not do this for you**.
 This template creates a LAMP (Linux, Apache, MariaDB, PHP) stack.
 This workshop will highlight some features of this stack.
 You are encouraged to study the stack to learn more about the details not covered in this workshop.
@@ -415,7 +415,7 @@ This *parent* stack will import the AzName, VpcId, and SubnetId values from the 
 
 - __6.4__ Close Lamp.yaml.
 
-- __6.5__ Download the LampParent.yaml file.
+- __6.5__ Download the LampParent.yaml template to your workstation by right clicking on [this link](https://github.com/aws-samples/aws-cloudformation-workshops/raw/master/workshop_1/LampParent.yaml), and select 'Save as' (or the equivalent in your browser). **NOTE: Make sure you change the file extension to .yaml if your browser does not do this for you**.
 Open LampParent.yaml in your text editor.
 
 - __6.6__ Notice the structure of the LampStack resource.
