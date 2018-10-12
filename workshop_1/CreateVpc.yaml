@@ -106,3 +106,7 @@ Outputs:
   AzName:
     Description: Subnet Availability Zone
     Value: !GetAtt PublicSubnet.AvailabilityZone
+    
+  VpcCidr:
+    Description: Vpc Cidr Block
+    Value: !GetAtt Vpc.CidrBlock
