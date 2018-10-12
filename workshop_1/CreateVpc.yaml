@@ -96,25 +96,13 @@ Resources:
 Outputs:
 
   SubnetId:
-    Description: Subnet ID
+    Description: Subnet Id
     Value: !Ref PublicSubnet
-    Export:
-      Name: SubnetId
 
   VpcId:
-    Description: Vpc ID
-    Value: !Ref Vpc
-    Export:
-      Name: VpcId
-
-  VpcCidr:
-    Description: Vpc CIDR block
-    Value: !GetAtt Vpc.CidrBlock
-    Export:
-      Name: VpcCidr
+    Description: Vpc Id
+    Value: !GetAtt PublicSubnet.VpcId
 
   AzName:
     Description: Subnet Availability Zone
     Value: !GetAtt PublicSubnet.AvailabilityZone
-    Export:
-      Name: AzName
