@@ -330,12 +330,13 @@ Please make sure that each VPC has a unique CIDR block in the 10.0.0.0/8 space.
 You need to some up with a way to use different CIDR blocks for each region in which the stack is deployed, preferably in an automatic manner.
 AWS CloudFormation offers a way to do this with *mappings*.
 
-- __5.13__ Download the Mappings.yaml template to your workstation by right clicking on [this link](https://github.com/aws-samples/aws-cloudformation-workshops/raw/master/workshop_1/Mappings.yaml), and select 'Save as' (or the equivalent in your browser).  
-Insert the contents of the Mappings.yaml file into the CreateVpc.yaml file above the *Resources:* line.
+- __5.13__ Download the Mappings.yaml template to your workstation by right clicking on [this link](https://github.com/aws-samples/aws-cloudformation-workshops/raw/master/workshop_1/Mappings.yaml), and select 'Save as' (or the equivalent in your browser).
+
+- __5.14__ Insert the contents of the Mappings.yaml file into the CreateVpc.yaml file above the *Resources:* line.
 The rows of Mappings.yaml create a map named *RegionMap* that CloudFormation can use to look up attributes associated with a region.
 The attributes for each region are VpcCidr and SubnetCidr which are the CIDR address blocks to associate with the VPC and public subnet for each region.
 
-- __5.14__ You now need to tell CloudFormation to use the values in the RegionMap mapping.
+- __5.15__ You now need to tell CloudFormation to use the values in the RegionMap mapping.
 *Replace* the lines shown in section 5.12 with these lines:
 
 ```
@@ -358,9 +359,9 @@ The attributes for each region are VpcCidr and SubnetCidr which are the CIDR add
 
   Notice the use of the [FindInMap](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-findinmap.html) function to look up the VpcCidr and SubnetCidr values based on the current region which is provided by the [AWS::Region pseudo-parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html).
   
-- __5.15__ Save the updated CreateVpc.yaml file.
+- __5.16__ Save the updated CreateVpc.yaml file.
 
-- __5.16__ Deploy the updated CreateVpc.yaml file as a stack (not a StackSet) within the administrative region (us-east-1).
+- __5.17__ Deploy the updated CreateVpc.yaml file as a stack (not a StackSet) within the administrative region (us-east-1).
 Use *CreateVpc* for the name of the stack.
 After the stack has been deployed examine the outputs for the stack.
 You will see that CloudFormation has by itself chosen an Availability Zone within each region for the subnet as well as a VPC CIDR block that is specific to the region as shown below.
@@ -369,15 +370,15 @@ You will see that CloudFormation has by itself chosen an Availability Zone withi
 
 If you receive errors, make any adjustments needed and try deploying the stack again until you receive no errors.
   
-- __5.17__ Delete the CreateVpc stack.
+- __5.18__ Delete the CreateVpc stack.
 
-- __5.18__ Deploy the createvpc.yaml as a *StackSet* from the administrative region (us-east-1) into both target regions (us-east-1 and us-west-2).
+- __5.19__ Deploy the createvpc.yaml as a *StackSet* from the administrative region (us-east-1) into both target regions (us-east-1 and us-west-2).
 Use *CreateVpc* as the StackSet name.
 
-- __5.19__ After the StackSet deployment has been completed, go to the CloudFormation console for each target region (us-east-1 and us-west-2) and look at the Output for each target stack.
+- __5.20__ After the StackSet deployment has been completed, go to the CloudFormation console for each target region (us-east-1 and us-west-2) and look at the Output for each target stack.
 You will again see that CloudFormation has by itself chosen an Availability Zone within each region for the subnet as well as a VPC CIDR block that is specific to the region.
 
-- __5.20__ Here's an infrastructure diagram of what you have built thus far:
+- __5.21__ Here's an infrastructure diagram of what you have built thus far:
 
 ![Architecture diagram](img/infrastructure-postcreatevpc.png)
 
