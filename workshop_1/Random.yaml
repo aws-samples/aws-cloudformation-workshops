@@ -45,11 +45,6 @@
       Role: !GetAtt LambdaExecutionRole.Arn
       Runtime: 'python3.6'
       Timeout: 30
-      Tags: 
-      - Key: Name
-        Value: !Join [ '', [ Ref: NamePrefix, 'rndstrlambda' ]]
-      - Key: Project
-        Value: !Ref ProjectTag
       Code:
         ZipFile: |
           import json
