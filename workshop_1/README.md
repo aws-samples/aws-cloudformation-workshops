@@ -299,7 +299,7 @@ If you receive errors, make any adjustments needed and try deploying the stack a
 Look at the Outputs of the stack.
 Note that CloudFormation automatically chose the availability zone of the subnet.
   
-- __5.11__ Delete the CreateVpc stack.
+- __5.11__ Delete the CreateVpc stack.  Wait for the deletion to complete.
 
 - __5.12__ Just as you thought you were done, you received the following message from a colleague who is responsible for the architecture of your company's network:
 
@@ -370,7 +370,7 @@ You will see that CloudFormation has by itself chosen an Availability Zone withi
 
 If you receive errors, make any adjustments needed and try deploying the stack again until you receive no errors.
   
-- __5.18__ Delete the CreateVpc stack.
+- __5.18__ Delete the CreateVpc stack.  Wait for the deletion to complete.
 
 - __5.19__ Deploy the createvpc.yaml as a *StackSet* from the administrative region (us-east-1) into both target regions (us-east-1 and us-west-2).
 Note that you will select the *Upload a template to Amazon S3* option. Use *CreateVpc* as the StackSet name.
@@ -439,13 +439,13 @@ Click on that hyperlink and you should see the Apache test page.
 
 ![Apache test page](img/ApacheTestPage.png)
 
-- __6.10__ Delete the LampParent stack (not the nested stack).  The nested stack will automatically be deleted.
+- __6.10__ Delete the LampParent stack (not the nested stack).  The nested stack will automatically be deleted.  Wait for the deletion of both stacks to complete.
 
 Just when you were getting ready to deploy the template as a StackSet, you receive the following message:
 
 ```
 Attention Cloud Services Team!  The Security Team is concerned that data base passwords are too easy to guess.
-Please ensure that all data base passwords are a minimum of eight random alphanumberic characters.
+Please ensure that all data base passwords are a minimum of eight random alphabetic characters.
 ```
 
 It turns out there is a way to have CloudFormation generate a random string with a little help from you through the use of [custom resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-custom-resources.html).
@@ -524,7 +524,7 @@ data element named *RandomString* which is string of quantity *StringLength* ran
 - __6.18__ In steps 6.12 through 6.18, you have changed the database root password from being a parameter to being a random string value.
 
 - __6.19__ Deploy the new LampParent.yaml as a *stack* (not a StackSet) in the administrative region (us-east-1).
-Use *LampParent* for the stack name and any 8-32 alphanumeric password.
+Use *LampParent* for the stack name.
 
 - __6.20__ When the deployment is complete, you will again see two additional stacks, one of which is nested as shown below.
 
@@ -532,7 +532,8 @@ Use *LampParent* for the stack name and any 8-32 alphanumeric password.
 
 - __6.21__ In the Output tab of the stack, you should see a value for DbRootPassword that contains an 8-character random string value.
 
-- __6.22__ Delete the LampParent stack (not the nested stack).  The nested stack will automatically be deleted.
+- __6.22__ Delete the LampParent stack (not the nested stack).  The nested stack will automatically be deleted as well.
+Wait for the deletion of both stacks to complete.
 
 - __6.23__ Now deploy the LampParent.yaml file as a StackSet.
 
