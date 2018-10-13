@@ -65,7 +65,7 @@
               cfnresponse.send(event, context, cfnresponse.FAILED)
             else:
               responseData = {}
-              chars=string.ascii_letters + string.digits # change this to use other kinds of characters
+              chars=string.ascii_letters # change this to use other kinds of characters
               
               responseData['RandomString'] = ''.join(random.choice(chars) for _ in range(StringLength))
               cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData)
