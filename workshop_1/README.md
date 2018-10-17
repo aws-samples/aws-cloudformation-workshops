@@ -31,7 +31,7 @@ Here's an infrastructure diagram of what you will build.
 
 Here's a diagram of the same architecture from a CloudFormation StackSet perspective:
 
-![Architecture diagram](img/stacksets-viewv2.png)
+![Architecture diagram](img/stacksets-viewv3.png)
 
 ### Prerequisites, Assumptions, and Caveats
 
@@ -386,7 +386,7 @@ You will again see that CloudFormation has by itself chosen an Availability Zone
 
 Here's a diagram of what you have built thus far from a CloudFormation StackSet perspective:
 
-![Architecture diagram](img/stacksets-postcreatevpc.png)
+![Architecture diagram](img/stacksets-postcreatevpcv3.png)
 
 ### 6. Create the LAMP StackSet
 
