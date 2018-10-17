@@ -202,6 +202,9 @@ A better approach is to have the logic that selects the Availability Zone for th
 This would allow you to use the exact same template across both target regions and have CloudFormation automatically provision the submet in an Availability Zone within each region.
 
 - __5.5__ Go to the CloudFormation console in the administrative region (us-east-1 in this example).  Select the CreateVpc stack, click *Actions* and select *Delete Stack* to delete the CreateVpc stack.
+You may be wondering why we are creating a stack in a single region and then deleting it
+The reason is that it's better to make sure we get the template the way we want in a single region as a stack before deploying across multiple regions as a stackset.
+We will do the same thing a few times later in this workshop so it's good to understand the reason.
 
 - __5.6__ Open the CreateVpc.yaml file in a text editor.
 
