@@ -386,7 +386,7 @@ You will again see that CloudFormation has by itself chosen an Availability Zone
 
 Here's a diagram of what you have built thus far from a CloudFormation StackSet perspective:
 
-![Architecture diagram](img/stackset-postcreatevpc.png)
+![Architecture diagram](img/stacksets-postcreatevpc.png)
 
 ### 6. Create the LAMP StackSet
 
