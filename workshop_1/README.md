@@ -31,7 +31,7 @@ Here's an infrastructure diagram of what you will build.
 
 Here's a diagram of the same architecture from a CloudFormation StackSet perspective:
 
-![Architecture diagram](img/stackset-view.png)
+![Architecture diagram](img/stacksets-view.png)
 
 ### Prerequisites, Assumptions, and Caveats
 
