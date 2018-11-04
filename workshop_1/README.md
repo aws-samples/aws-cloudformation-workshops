@@ -132,7 +132,7 @@ If the stack rolls back, it likely means that the AWSCloudFormationStackSetExecu
 | **Important Security Note** | 
 | ---------- | 
 | |
-|**_The default permissions for the AWSCloudFormationStackSetExecutionRole grants administrator access for CloudFormation StackSets to provision all AWS services. After you use the template to create a target account execution role, you should consider adjusting the permissions in the policy statement to the types of resources that you are creating by using StackSets._**
+|**_The default permissions for the AWSCloudFormationStackSetExecutionRole grants administrator access for CloudFormation StackSets to provision all AWS services. After you use the template to create a target account execution role, you should consider adjusting the permissions in the policy statement to the types of resources that you are creating by using StackSets._**|
 
 ### 4. Create the EnableCloudTrail StackSet
 
