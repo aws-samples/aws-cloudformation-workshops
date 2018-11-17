@@ -427,8 +427,7 @@ Notice the use of the ImportValue intrinsic function.
 The values of AzName, VpcId, and SubnetId have been imported from the CreateVpc StackSet in the region.
 Notice also the value for TemplateURL.
 When you use nested stacks, the stack template must reside in an Amazon S3 bucket in the region and that the name of the bucket contains the name of the region.
-For your convenience, we have placed a copy of the Lamp.yaml file has been placed for you into regional S3 buckets so you do not have to be concerned with this.
-When you deploy LampParent.yaml as a StackSet, a nested stack will be built from the regional S3 bucket copy of Lamp.yaml.
+For your convenience, we have placed a copy of the Lamp.yaml file into a regional S3 buckets. So when you deploy LampParent.yaml as a StackSet, a nested stack will be built from the regional S3 bucket copy of Lamp.yaml.
 
 - __6.7__ Deploy the LampParent.yaml as a *stack* (not a StackSet) in the administrative region (us-east-1).
 Use *LampParent* for the stack name and any 8-32 alphanumeric password.
